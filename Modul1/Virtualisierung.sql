@@ -1,5 +1,6 @@
 /*
-Hat die VM auch die Ressourcen, die sie auch ohne Virtualisierung hätte?
+----
+Hat die VM auch die Ressourcen, die sie auch ohne Virtualisierung hÃ¤tte?
 /*
 
 
@@ -25,11 +26,11 @@ CPU
 ! Bilde in der VM die reale Umgebung ab..
 
 NUMA: 
-NUMA Architektur...zu jedem RAM Sockel (Knoten) gehört ein bestimmter Prozessor
+NUMA Architektur...zu jedem RAM Sockel (Knoten) gehÃ¶rt ein bestimmter Prozessor
 	Vorteil der ZUgriff ist sehr schnell
-	Zugriff auf RAM eines anderen Sockel höhere Latenzzeit
+	Zugriff auf RAM eines anderen Sockel hÃ¶here Latenzzeit
       
-Was, wenn die Architekur in VM was anderes sieht, als es in der realität ist..
+Was, wenn die Architekur in VM was anderes sieht, als es in der realitÃ¤t ist..
 
 
 RAMVERTEILUNG bei VMs
@@ -38,7 +39,7 @@ Beachte immer das Gast OS! Mind 4 GB gedanklich reservieren..
 Aktuelle Ausstattung
 16 GB RAM 1 Socket 1 CPU mit 2 Kernen und 4 log Prozessoren
 
-Für das vorreservieren: 4 GB
+FÃ¼r das vorreservieren: 4 GB
 
 16-4GB= 12GB zu verteilen
 
@@ -54,6 +55,7 @@ HV-SQL2: fixer Speicher 4 GB    4 CPUs
 
 
 NUMA Zuweisung beachten
+
 
 
 */
