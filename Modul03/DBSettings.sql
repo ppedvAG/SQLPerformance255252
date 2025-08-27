@@ -23,8 +23,7 @@ DB verkeinern False
 Wiederherstellungsmodel: ? Simple / Full / False
 */
 
- 
-
+select SOUNDEX('Meyr'), formsof
 use [master];
 GO
 
