@@ -1,4 +1,33 @@
 
+/*
+!!!!!!!!
+Wenn man UP, INS, DEL ausführt ist das erst zu Ende wenn alle Indizes auch aktualisiert worden sind
+
+where sp like '%A' non SARG --SCAN!!
+where sp like 'A%' SARG -- gut
+where f(sp) = 10  NON SARG --immer SCAN
+
+
+Nicht gruppierten
+
+
+Kopie von Daten in sortierter Form
+pro Tabelle ca 1000 Stück
+wenn LOOKUP, dann gilt: nur sehr wenige Datensätze
+ID 
+
+GR IX
+
+Tabelle in sortierter Form
+1 mal pro Tabelle
+gut bei Bereichsabfragen, auch bei = 
+
+
+
+
+
+Gruppierter IX
+
 
 
 
@@ -36,7 +65,7 @@ IX haben ihre Finger dort drin:
 
 */
 
-/*
+
 --Nicht gruppierter IX
 
 --gut bei wenigen Ergebniszeilen, je mehr desto schlechter
@@ -55,10 +84,7 @@ ist aber auch gut für eindeutige Werte, was aber der N gr auch sehr gut
 */
 
 --Spieltablle
-select * into ku1 from ku
 
---ID Wert
-alter table ku1 add ID int identity
 
 /*
 SCAN SEEK
@@ -333,3 +359,69 @@ dbcc freeproccache
 
 
 */
+--PLAN
+--IO / TIME
+
+set statistics io, time on
+
+select id from ku where Id =10
+
+select top 1 * from ku
+
+--TAB SCAN
+--IO 60000  312/47
+
+--zuerst : definiere den GR IX (orderdate)
+
+--NIX_ID
+select id from ku where Id =10
+--NIX_ID SEEK  3 Seiten 0ms
+
+--
+select id, city from ku where Id =10
+--NIX_ID mit Lookup  4 Seiten  0ms
+
+--je mehr DAten per Lookup gesucht werden müssen desto teuerer
+--Wechsel von Seek zu Table SCAN
+
+
+--mit NIX_ID_City
+select id, city from ku where Id <930000
+--bis über 900000 immer noch seek und besser
+--weil kein Lookup
+
+--kommt eine Spalte dazu , dann immer wieder Lookup
+--also Idee. alle Spalten rein
+--blöde idee
+--zusammengesetzter IX hat Limit: max 32 Spalten
+--< 900byte
+select id, city, country from ku where Id <13000
+
+--besser = IX mit eingeschlossenen Spalten
+
+select Lastname, companyname, sum(unitprice*quantity)
+from ku
+where freight < 1 and employeeid=2
+group by lastname, companyname
+
+
+
+select * into ku2 from ku
+
+select top 1 * from ku
+
+--AGG , where 
+--product Nr12 
+--Umsatz für
+
+select country, sum(unitprice*quantity) as Umsatz
+from ku
+where freight = 12
+group by country
+--NIX_PID_i_cyupqu
+
+
+select country, sum(unitprice*quantity) as Umsatz
+from ku2
+where freight < 1
+group by country
